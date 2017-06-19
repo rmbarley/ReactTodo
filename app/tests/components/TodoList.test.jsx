@@ -21,7 +21,7 @@ describe('TodoList', () => {
               text: 'Clean the yard'
             }
           ];
-      var todoList = TestUtils.renderIntoDocument(<TodoList todos={ todos } />);
+      var todoList = TestUtils.renderIntoDocument(<TodoList todos={ this.todos } />);
       var todosComponents = TestUtils.scryRenderedComponentsWithType(todoList, Todo);
 
       expect(todosComponents.length).toBe(todos.length);
