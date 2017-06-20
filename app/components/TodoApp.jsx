@@ -2,6 +2,8 @@ import React, {PropTypes} from 'react'
 import uuid from 'node-uuid';
 import moment from 'moment';
 
+import TodoApi from 'TodoApi';
+
 import TodoList from 'TodoList';
 import AddTodo from 'AddTodo';
 import TodoSearch from 'TodoSearch';
@@ -11,27 +13,11 @@ const TodoApp = React.createClass({
     return {
       showCompleted: false,
       searchText: '',
-      todos: [
-        {
-          id: uuid(),
-          text: 'Walk the dog',
-          completed: false
-        }, {
-          id: uuid(),
-          text: 'Clean the yard',
-          completed: true
-        }, {
-          id: uuid(),
-          text: 'Clean the house',
-          completed: true
-
-        }, {
-          id: uuid(),
-          text: 'Wash the car',
-          completed: false
-        }
-      ]
+      todos: TodoApi.getTodos()
     }
+  },
+  componentDidUpdate() {
+    TodoApi.setTodos(this.state.todos);
   },
   handleAddTodo(text) {
     this.setState({
