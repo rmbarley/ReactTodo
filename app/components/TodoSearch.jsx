@@ -3,9 +3,9 @@ import React, { PropTypes } from 'react'
 const TodoSearch = React.createClass({
   handleSearch() {
     var showCompleted = this.refs.showCompleted.checked;
-    var searchText = this.refs.searchText.value.toLowerCase();
+    var searchText = this.refs.searchText.value;
 
-    this.props.onSearch(showCompleted. searchText);
+    this.props.onSearch(showCompleted, searchText);
   },
   render () {
     return (

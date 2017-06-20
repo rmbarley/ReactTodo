@@ -1,4 +1,6 @@
-import React, { PropTypes } from 'react'
+import React, {PropTypes} from 'react'
+import uuid from 'node-uuid';
+import moment from 'moment';
 
 import TodoList from 'TodoList';
 import AddTodo from 'AddTodo';
@@ -10,39 +12,58 @@ const TodoApp = React.createClass({
       showCompleted: false,
       searchText: '',
       todos: [
-        {id: 1,
-        text: 'Walk the dog'},
         {
-          id: 2,
-          text: 'Clean the yard'
-        },
-        {
-          id: 3,
-          text: 'Clean the house'
-        },
-        {
-          id: 4,
-          text: 'Wash the car'
+          id: uuid(),
+          text: 'Walk the dog',
+          completed: false
+        }, {
+          id: uuid(),
+          text: 'Clean the yard',
+          completed: true
+        }, {
+          id: uuid(),
+          text: 'Clean the house',
+          completed: true
+
+        }, {
+          id: uuid(),
+          text: 'Wash the car',
+          completed: false
         }
       ]
     }
   },
   handleAddTodo(text) {
-    alert('New Todo: ' + text);
-  },
-  handleSearch(showCompleted, searchText) {
     this.setState({
-      showCompleted,
-      searchText
+      todos: [
+        ...this.state.todos, {
+          id: uuid(),
+          text,
+          completed: false,
+          createdAt: moment().unix
+        }
+      ]
     });
   },
-  render () {
-    var { todos } = this.state;
+  handleSearch(showCompleted, searchText) {
+    this.setState({showCompleted, searchText: searchText.toLowerCase()});
+  },
+  handleToggle(id) {
+    var updatedTodos = this.state.todos.map((todo) => {
+      if (todo.id === id) {
+        todo.completed = !todo.completed;
+      }
+      return todo;
+    });
+    this.setState({ todos: updatedTodos });
+  },
+  render() {
+    var {todos} = this.state;
     return (
       <div>
-        <TodoSearch onSearch={ this.handleSearch }/>
-        <TodoList todos={ todos }/>
-        <AddTodo onAddTodo={ this.handleAddTodo } />
+        <TodoSearch onSearch={this.handleSearch}/>
+        <TodoList todos={todos} onToggle={ this.handleToggle } />
+        <AddTodo onAddTodo={this.handleAddTodo}/>
       </div>
     );
   }
